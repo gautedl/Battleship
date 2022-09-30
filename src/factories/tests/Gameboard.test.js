@@ -59,3 +59,60 @@ test('Checks that two ships can not overlap, with placeShup funciton', () => {
   gameboard.placeShip(ship, 1, 4, true);
   expect(gameboard.placeShip(ship, 1, 3, false)).toEqual(false);
 });
+
+test('Checks that a ship can not be placed out of board', () => {
+  expect(gameboard.checkIfShipCanBePlaced(ship, 0, 0, true)).toEqual(false);
+});
+
+test('Checks if ship is hit when attacking', () => {
+  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.receiveAttack(1, 4);
+  expect(gameboard.board[1][4]).toEqual('hit');
+});
+
+test('Checks if number of hits is stores', () => {
+  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.receiveAttack(1, 4);
+  expect(gameboard.hits).toEqual(1);
+});
+
+test('Checks if is miss hit when attacking empty', () => {
+  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.receiveAttack(5, 5);
+  expect(gameboard.board[5][5]).toEqual('miss');
+});
+
+test('Checks that same spot can not be attacked twice', () => {
+  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.receiveAttack(5, 5);
+  expect(gameboard.receiveAttack(5, 5)).toEqual(false);
+});
+
+test('Checks that number of missed shots is stored', () => {
+  gameboard.receiveAttack(5, 5);
+  gameboard.receiveAttack(5, 4);
+  gameboard.receiveAttack(5, 3);
+  gameboard.receiveAttack(5, 2);
+  gameboard.receiveAttack(5, 1);
+  expect(gameboard.missedShots).toEqual(5);
+});
+
+test('Checks that the tile is marked as miss', () => {
+  gameboard.receiveAttack(5, 5);
+  gameboard.receiveAttack(5, 4);
+  gameboard.receiveAttack(5, 3);
+  gameboard.receiveAttack(5, 2);
+  gameboard.receiveAttack(5, 1);
+  expect(gameboard.board[5][5] && gameboard.board[5][4]).toEqual('miss');
+});
+
+test('Checks if all ships are hit, should produce false', () => {
+  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.receiveAttack(1, 4);
+  expect(gameboard.checkIfAllShipsHaveSunk()).toEqual(false);
+});
+
+test('Check if all ships are sunken, should produce true. MOCK', () => {
+  gameboard.hits = 17;
+  expect(gameboard.checkIfAllShipsHaveSunk()).toEqual(true);
+});

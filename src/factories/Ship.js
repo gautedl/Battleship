@@ -1,5 +1,5 @@
 export default class Ship {
-  constructor(length) {
+  constructor(length, isVertical) {
     this.length = length;
     this.hits = Array(this.length);
   }

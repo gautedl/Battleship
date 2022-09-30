@@ -1,8 +1,11 @@
 export default class Gameboard {
   SIZE = 10;
+  TILES_WITH_SHIPS = 17;
 
   constructor() {
     this.board = [];
+    this.missedShots = 0;
+    this.hits = 0;
   }
 
   initBoard() {
@@ -41,17 +44,33 @@ export default class Gameboard {
     if (isVertical) {
       startPosition = row - offset;
       for (let i = 0; i < ship.length; i++) {
-        if (this.board[startPosition + i][column] === 'ship') return false;
         if (startPosition + i < 0) return false;
+        if (this.board[startPosition + i][column] === 'ship') return false;
       }
     } else {
       startPosition = column - offset;
       for (let i = 0; i < ship.length; i++) {
-        if (this.board[row][startPosition + i] === 'ship') return false;
         if (startPosition + i < 0) return false;
+        if (this.board[row][startPosition + i] === 'ship') return false;
       }
     }
 
     return true;
+  }
+
+  receiveAttack(row, col) {
+    if (this.board[row][col] === 'miss' || this.board[row][col] === 'hit')
+      return false;
+    if (this.board[row][col] === 'ship') {
+      this.board[row][col] = 'hit';
+      this.hits++;
+    } else {
+      this.missedShots++;
+      this.board[row][col] = 'miss';
+    }
+  }
+
+  checkIfAllShipsHaveSunk() {
+    return this.hits === this.TILES_WITH_SHIPS ? true : false;
   }
 }
