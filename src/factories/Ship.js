@@ -1,7 +1,14 @@
 export default class Ship {
   constructor(length) {
     this.length = length;
-    this.hits = Array.apply(null, Array(length)).map(function () {});
+    this.hits = Array(this.length);
+  }
+
+  populateShip() {
+    for (let i = 0; i < this.length; i++) {
+      this.hits[i] = 'ship';
+    }
+    return this.hits;
   }
 
   hit(index) {
@@ -11,6 +18,6 @@ export default class Ship {
   }
 
   isSunk() {
-    return this.hits.includes(undefined) ? false : true;
+    return this.hits.includes('ship') ? false : true;
   }
 }
