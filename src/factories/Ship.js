@@ -1,15 +1,15 @@
 export default class Ship {
-  constructor(length, isVertical) {
+  constructor(length) {
     this.length = length;
-    this.hits = Array(this.length);
+    this.hits = Array(this.length).fill('ship');
   }
 
-  populateShip() {
-    for (let i = 0; i < this.length; i++) {
-      this.hits[i] = 'ship';
-    }
-    return this.hits;
-  }
+  // populateShip() {
+  //   for (let i = 0; i < this.length; i++) {
+  //     this.hits[i] = 'ship';
+  //   }
+  //   return this.hits;
+  // }
 
   hit(index) {
     if (this.hits[index] === 'hit') return;

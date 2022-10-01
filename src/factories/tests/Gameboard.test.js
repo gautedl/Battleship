@@ -116,3 +116,17 @@ test('Check if all ships are sunken, should produce true. MOCK', () => {
   gameboard.hits = 17;
   expect(gameboard.checkIfAllShipsHaveSunk()).toEqual(true);
 });
+
+test('Fill up board randomly with ships', () => {
+  gameboard.placeRandomShips();
+  let ships = 0;
+  for (let i = 0; i < gameboard.board.length; i++) {
+    for (let j = 0; j < gameboard.board[i].length; j++) {
+      if (gameboard.board[i][j] === 'ship') {
+        ships++;
+      }
+    }
+  }
+
+  expect(ships).toEqual(gameboard.TILES_WITH_SHIPS);
+});

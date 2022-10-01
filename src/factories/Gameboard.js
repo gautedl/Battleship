@@ -1,3 +1,5 @@
+import Ship from './Ship';
+
 export default class Gameboard {
   SIZE = 10;
   TILES_WITH_SHIPS = 17;
@@ -72,5 +74,26 @@ export default class Gameboard {
 
   checkIfAllShipsHaveSunk() {
     return this.hits === this.TILES_WITH_SHIPS ? true : false;
+  }
+
+  placeRandomShips() {
+    const carrier = new Ship(5);
+    const battleship = new Ship(4);
+    const cruiser = new Ship(3);
+    const submarine = new Ship(3);
+    const destroyer = new Ship(2);
+
+    const arrOfShips = [carrier, battleship, cruiser, submarine, destroyer];
+
+    while (arrOfShips.length > 0) {
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+      const isVertical = Math.random() > 0.5 ? true : false;
+
+      if (this.checkIfShipCanBePlaced(arrOfShips[0], row, col, isVertical)) {
+        this.placeShip(arrOfShips[0], row, col, isVertical);
+        arrOfShips.shift();
+      }
+    }
   }
 }

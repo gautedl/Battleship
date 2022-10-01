@@ -2,7 +2,7 @@ import Ship from '../Ship';
 let ship;
 beforeEach(() => {
   ship = new Ship(3);
-  ship.populateShip();
+  // ship.populateShip();
 });
 
 test('Creates a ship', () => {
