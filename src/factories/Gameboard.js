@@ -46,14 +46,22 @@ export default class Gameboard {
     if (isVertical) {
       startPosition = row - offset;
       for (let i = 0; i < ship.length; i++) {
-        if (startPosition + i < 0) return false;
-        if (this.board[startPosition + i][column] === 'ship') return false;
+        if (
+          startPosition + i < 0 ||
+          startPosition + i > 9 ||
+          this.board[startPosition + i][column] === 'ship'
+        )
+          return false;
       }
     } else {
       startPosition = column - offset;
       for (let i = 0; i < ship.length; i++) {
-        if (startPosition + i < 0) return false;
-        if (this.board[row][startPosition + i] === 'ship') return false;
+        if (
+          startPosition + i < 0 ||
+          startPosition + i > 9 ||
+          this.board[row][startPosition + i] === 'ship'
+        )
+          return false;
       }
     }
 

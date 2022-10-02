@@ -1,1 +1,3 @@
-console.log('Yee');
+import { renderTiles } from './gameLogic';
+
+renderTiles();
