@@ -1,16 +1,10 @@
 export default class Player {
-  constructor(name = 'Computer', isComputer = true) {
+  constructor(name = 'Computer') {
     this.name = name;
-    this.isComputer = isComputer;
-    this.turn = true;
     this.coords = [];
-    // this.coordCol = [];
   }
 
-  switchTurn() {
-    this.turn = !this.turn;
-  }
-
+  // Function for a random play
   randomPlay() {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);

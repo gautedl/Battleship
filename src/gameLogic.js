@@ -2,78 +2,98 @@ import Ship from './factories/Ship';
 import Player from './factories/Player';
 import Gameboard from './factories/Gameboard';
 
-const playerOneTiles = document.querySelector('.tiles-player1');
-const playerTwoTiles = document.querySelector('.tiles-player2');
+let playerOneTiles = '';
+let playerTwoTiles = '';
+let modalBoard = '';
 const playerOneName = document.querySelector('.player-name.player1');
 const playerTwoName = document.querySelector('.player-name.player2');
+const container = document.querySelector('.game-container');
 
-const player = new Player('Human', false);
+const player = new Player('Human');
 const computer = new Player();
+
+const carrier = new Ship(5);
+const battleship = new Ship(4);
+const destroyer = new Ship(3);
+const submarine = new Ship(3);
+const patrolBoat = new Ship(2);
 
 const gameboardPlayer = new Gameboard();
 const gameboardComputer = new Gameboard();
 
 gameboardPlayer.initBoard();
 gameboardComputer.initBoard();
-gameboardPlayer.placeRandomShips();
+// gameboardPlayer.placeRandomShips();
 gameboardComputer.placeRandomShips();
 
-function renderCompGameboard(gameboard, tiles) {
+function renderEmptyBoard(gameboard) {
   for (let i = 0; i < gameboard.board.length; i++) {
     for (let j = 0; j < gameboard.board[i].length; j++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
-      tile.classList.add('tile-comp');
-      tile.dataAttr = +i + '' + j;
-      getTile(tile);
-      tiles.appendChild(tile);
+      modalBoard.appendChild(tile);
     }
   }
 }
 
-function renderPlayerGameboard(gameboard, tiles) {
-  for (let i = 0; i < gameboard.board.length; i++) {
-    for (let j = 0; j < gameboard.board[i].length; j++) {
-      const tile = document.createElement('div');
-      tile.className = 'tile';
-      tile.id = 'tile-player';
-      if (gameboard.board[i][j] === 'ship') tile.classList.add('tile-ship');
-      tile.dataRow = i;
-      tile.dataCol = j;
-      // getTileComp(tile);
-      tiles.appendChild(tile);
-    }
-  }
-}
-
-// function nexTurn() {
-//   console.log(computer.turn, player.turn);
-
-//   if (player.turn) {
-//     playerOneName.classList.remove('not-turn');
-//     playerTwoName.classList.add('not-turn');
-//   } else if (computer.turn) {
-//     playerTwoName.classList.remove('not-turn');
-//     playerOneName.classList.add('not-turn');
+// // Renders the computers board
+// function renderCompGameboard(gameboard, tiles) {
+//   for (let i = 0; i < gameboard.board.length; i++) {
+//     for (let j = 0; j < gameboard.board[i].length; j++) {
+//       const tile = document.createElement('div');
+//       tile.className = 'tile';
+//       tile.classList.add('tile-comp');
+//       tile.dataAttr = +i + '' + j;
+//       getTile(tile);
+//       tiles.appendChild(tile);
+//     }
 //   }
-
-//   computer.switchTurn();
-//   player.switchTurn();
 // }
 
+// // Renders the Players board
+// function renderPlayerGameboard(gameboard, tiles) {
+//   for (let i = 0; i < gameboard.board.length; i++) {
+//     for (let j = 0; j < gameboard.board[i].length; j++) {
+//       const tile = document.createElement('div');
+//       tile.className = 'tile';
+//       tile.id = 'tile-player';
+//       if (gameboard.board[i][j] === 'ship') tile.classList.add('tile-ship');
+//       tile.dataRow = i;
+//       tile.dataCol = j;
+//       tiles.appendChild(tile);
+//     }
+//   }
+// }
+
+// Gets the tile the player clicks on an it's coordinates
 function getTile(tile) {
   tile.addEventListener('click', function (e) {
     const [row, col] = e.target.dataAttr.split('');
-
-    attackBoard(gameboardComputer, row, col, tile);
-
-    const [compRow, compCol] = computer.randomPlay();
-    const compTile = getPlayerTile(compRow, compCol);
-
-    attackBoard(gameboardPlayer, compRow, compCol, compTile);
+    attackRound(tile, row, col);
   });
 }
 
+// A function for a round of attacks
+function attackRound(tile, row, col) {
+  attackBoard(gameboardComputer, row, col, tile);
+
+  const [compRow, compCol] = computer.randomPlay(); // Random play from the computer
+  const compTile = getPlayerTile(compRow, compCol);
+
+  attackBoard(gameboardPlayer, compRow, compCol, compTile);
+
+  // Winning conditions
+  if (gameboardComputer.checkIfAllShipsHaveSunk()) {
+    // Render winning screen with player as winner.
+    // New game button
+  }
+  if (gameboardPlayer.checkIfAllShipsHaveSunk()) {
+    //Render winning screen with computer as winner.
+    // New game button
+  }
+}
+
+// Takes the row and col coords and returnes the correct tile
 function getPlayerTile(row, col) {
   const tilesPlayer = document.querySelectorAll('#tile-player');
   let tile = '';
@@ -85,6 +105,7 @@ function getPlayerTile(row, col) {
   return tile;
 }
 
+// Function for a single attack
 function attackBoard(board, row, col, tile) {
   const attack = board.receiveAttack(row, col);
 
@@ -99,11 +120,41 @@ function attackBoard(board, row, col, tile) {
   }
 }
 
-function getTileFromRandom(gameboard, row, col) {
-  const tile = gameboard.board[row][col];
+function placeShipsModal() {
+  const modalContainer = document.createElement('div');
+  modalContainer.innerHTML = `
+      <div class="empty-board"></div>`;
+  container.append(modalContainer);
+  modalBoard = document.querySelector('.empty-board');
 }
 
+function gameContainer() {
+  const containerDiv = document.createElement('div');
+  containerDiv.className = 'container-div';
+  containerDiv.innerHTML = `
+      <div class="player-container player1">
+        <div class="fallen-ships player1"></div>
+        <div class="tiles-player1"></div>
+        <div class="player-name player1">You</div>
+      </div>
+      <div class="vertical-line">
+        <div class="line"></div>
+      </div>
+      <div class="player-container player2">
+        <div class="fallen-ships player2"></div>
+        <div class="tiles-player2"></div>
+        <div class="player-name player2">Computer</div>
+      </div>`;
+  container.append(containerDiv);
+  playerOneTiles = document.querySelector('.tiles-player1');
+  playerTwoTiles = document.querySelector('.tiles-player2');
+}
+
+// Functions for starting the game
 export function renderTiles() {
-  renderPlayerGameboard(gameboardPlayer, playerOneTiles);
-  renderCompGameboard(gameboardComputer, playerTwoTiles);
+  // gameContainer();
+  placeShipsModal();
+  renderEmptyBoard(gameboardPlayer);
+  // renderPlayerGameboard(gameboardPlayer, playerOneTiles);
+  // renderCompGameboard(gameboardComputer, playerTwoTiles);
 }

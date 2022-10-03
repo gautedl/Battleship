@@ -4,13 +4,6 @@ export default class Ship {
     this.hits = Array(this.length).fill('ship');
   }
 
-  // populateShip() {
-  //   for (let i = 0; i < this.length; i++) {
-  //     this.hits[i] = 'ship';
-  //   }
-  //   return this.hits;
-  // }
-
   hit(index) {
     if (this.hits[index] === 'hit') return;
     this.hits[index] = 'hit';

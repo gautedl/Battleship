@@ -35,11 +35,15 @@ html {
 .game-container {
     border: solid var(--almost-black) 5px;
     border-radius: 2px;
+    
+}
+
+.container-div {
     display: flex;
     gap: 20px;
 }
 
-.tiles-player1, .tiles-player2 {
+.tiles-player1, .tiles-player2, .empty-board {
     display: grid;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
