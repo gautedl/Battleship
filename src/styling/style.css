@@ -28,6 +28,8 @@ html {
     letter-spacing: 5px;
     font-size: 50px;
     text-transform: uppercase;
+    display: flex;
+    justify-content: center;
 } 
 
 .game-container {
@@ -55,6 +57,23 @@ html {
     font-size: 10px;
 }
 
+.tile-comp:hover {
+    cursor: pointer;
+    background-color: var(--light-grey);
+}
+
+.tile-ship {
+    background-color: #002855;
+}
+
+.missed {
+    background-color: red;
+}
+
+.hit {
+    background-color: green;
+}
+
 .vertical-line {
     display: flex;
     justify-content: center;
@@ -65,7 +84,18 @@ html {
     border-left: 10px var(--light-grey) solid;
     height: 250px;
     border-radius: 3px;
-
 }
 
+.player-name {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 30px;
+}
+
+.not-turn {
+    font-size: 24px;
+    color: var(--light-grey);
+}
 

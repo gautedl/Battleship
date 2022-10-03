@@ -74,9 +74,11 @@ export default class Gameboard {
     if (this.board[row][col] === 'ship') {
       this.board[row][col] = 'hit';
       this.hits++;
+      return 'hit';
     } else {
       this.missedShots++;
       this.board[row][col] = 'miss';
+      return 'miss';
     }
   }
 

@@ -3,8 +3,8 @@ export default class Player {
     this.name = name;
     this.isComputer = isComputer;
     this.turn = true;
-    this.coordRow = [];
-    this.coordCol = [];
+    this.coords = [];
+    // this.coordCol = [];
   }
 
   switchTurn() {
@@ -12,15 +12,18 @@ export default class Player {
   }
 
   randomPlay() {
-    const row = Math.floor(Math.random() * 10);
-    const col = Math.floor(Math.random() * 10);
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    let coordination = row + '' + col;
 
-    if (this.coordRow.includes(row) && this.coordCol.includes(col))
-      return false;
+    while (this.coords.includes(coordination)) {
+      row = Math.floor(Math.random() * 10);
+      col = Math.floor(Math.random() * 10);
+      coordination = row + '' + col;
+    }
 
-    this.coordRow.push(row);
-    this.coordCol.push(col);
+    this.coords.push(row + '' + col);
 
-    return row, col;
+    return [row, col];
   }
 }
