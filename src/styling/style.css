@@ -35,6 +35,9 @@ html {
 .game-container {
     border: solid var(--almost-black) 5px;
     border-radius: 2px;
+    width: 655px;
+    height: 380px;
+    padding: 15px;
     
 }
 
@@ -86,7 +89,7 @@ html {
 
 .line {
     border-left: 10px var(--light-grey) solid;
-    height: 250px;
+    height: 90%;
     border-radius: 3px;
 }
 
@@ -106,6 +109,10 @@ html {
 
 
 .place-boat-hover:hover {
+    background-color: var(--almost-black);
+}
+
+.highlight-board {
     background-color: var(--almost-black);
 }
 
@@ -143,3 +150,20 @@ html {
 .overlay.active {
     display: block;
 }
+
+.winning-div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    padding-top: 100px;
+    align-items: center;
+}
+
+.winner-name {
+    font-size: 38px;
+}
+
+
+

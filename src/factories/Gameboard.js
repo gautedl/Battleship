@@ -12,6 +12,7 @@ export default class Gameboard {
 
   // Creates the board
   initBoard() {
+    this.hits = 0;
     for (let i = 0; i < this.SIZE; i++) {
       this.board[i] = [];
       for (let j = 0; j < this.SIZE; j++) {
