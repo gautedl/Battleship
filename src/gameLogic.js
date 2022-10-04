@@ -13,6 +13,8 @@ let orientation = false;
 const container = document.querySelector('.game-container');
 const modalContainer = document.createElement('div');
 const overlay = document.querySelector('.overlay');
+const wrapper = document.querySelector('.wrapper')
+const titleContainer = document.querySelector('.title-container')
 
 const player = new Player('You');
 const computer = new Player();
@@ -45,7 +47,7 @@ function renderEmptyBoard(gameboard) {
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.classList.add('place-boat-hover');
-      tile.id = 'tile-player';
+      tile.id = 'tile-player-empty';
       if (gameboard.board[i][j] === 'ship') tile.classList.add('tile-ship');
       tile.dataRow = i;
       tile.dataCol = j;
@@ -71,6 +73,7 @@ function renderCompGameboard(gameboard, tiles) {
 
 // Renders the Players board
 function renderPlayerGameboard(gameboard, tiles) {
+  
   for (let i = 0; i < gameboard.board.length; i++) {
     for (let j = 0; j < gameboard.board[i].length; j++) {
       const tile = document.createElement('div');
@@ -142,8 +145,8 @@ function rematch(btn) {
 }
 
 // Takes the row and col coords and returnes the correct tile
-function getPlayerTile(row, col) {
-  const tilesPlayer = document.querySelectorAll('#tile-player');
+function getPlayerTile(row, col, id = "") {
+  const tilesPlayer = document.querySelectorAll('#tile-player'+id);
   let tile = '';
   tilesPlayer.forEach(function (el) {
     if (el.dataRow === row && el.dataCol === col) {
@@ -171,6 +174,8 @@ function attackBoard(board, row, col, tile) {
 // Start modal for placing the ships
 function placeShipsModal() {
   overlay.classList.add('active');
+  container.classList.add('in-bg')
+  titleContainer.classList.add('in-bg')
   modalContainer.className = 'start-modal';
   modalContainer.classList.add('is-visible');
   modalContainer.innerHTML = `
@@ -180,7 +185,7 @@ function placeShipsModal() {
       <button class="random-btn">Place ships randomly</button>
       `;
 
-  container.append(modalContainer);
+  wrapper.append(modalContainer);
   modalBoard = document.querySelector('.empty-board');
   boatTitle = document.querySelector('.boat-title');
   const orientationButton = document.querySelector('.orient-btn');
@@ -212,10 +217,10 @@ function highlightShipPlacement(tile, curBoat) {
     for (let i = 0; i < curBoat.ship.length; i++) {
       try {
         if (!orientation) {
-          const nextTile = getPlayerTile(curRow + i, curCol);
+          const nextTile = getPlayerTile(curRow + i, curCol, "-empty");
           nextTile.classList.add('highlight-board');
         } else {
-          const nextTile = getPlayerTile(curRow, curCol + i);
+          const nextTile = getPlayerTile(curRow, curCol + i, "-empty");
           nextTile.classList.add('highlight-board');
         }
       } catch (err) {}
@@ -228,10 +233,10 @@ function highlightShipPlacement(tile, curBoat) {
     for (let i = 0; i < curBoat.ship.length; i++) {
       try {
         if (!orientation) {
-          const nextTile = getPlayerTile(curRow + i, curCol);
+          const nextTile = getPlayerTile(curRow + i, curCol, "-empty");
           nextTile.classList.remove('highlight-board');
         } else {
-          const nextTile = getPlayerTile(curRow, curCol + i);
+          const nextTile = getPlayerTile(curRow, curCol + i, "-empty");
           nextTile.classList.remove('highlight-board');
         }
       } catch (err) {}
@@ -241,7 +246,7 @@ function highlightShipPlacement(tile, curBoat) {
 
 // Function for placing boats manually
 function placeBoats(tile) {
-  boatTitle.textContent = `Place your ${ships[0].nameBoat}`;
+  boatTitle.innerHTML = `Place your <u>${ships[0].nameBoat}</u>`;
   const curBoat = ships[index];
 
   highlightShipPlacement(tile, curBoat);
@@ -262,7 +267,7 @@ function placeBoats(tile) {
       } else index++;
       modalBoard.innerHTML = '';
       renderEmptyBoard(gameboardPlayer);
-      boatTitle.textContent = `Place your ${ships[index].nameBoat}`;
+      boatTitle.innerHTML = `Place your <u>${ships[0].nameBoat}</u>`;
     } else return;
   });
 }
@@ -270,24 +275,26 @@ function placeBoats(tile) {
 // Creates the gameContainer
 function gameContainer() {
   overlay.classList.remove('active');
+  container.classList.remove('in-bg')
+  titleContainer.classList.remove('in-bg')
   modalContainer.classList.remove('is-visible');
   container.innerHTML = '';
   const containerDiv = document.createElement('div');
   containerDiv.className = 'container-div';
   containerDiv.innerHTML = `
-      <div class="player-container player1">
-        <div class="fallen-ships player1"></div>
-        <div class="tiles-player1"></div>
-        <div class="player-name player1">You</div>
-      </div>
-      <div class="vertical-line">
-        <div class="line"></div>
-      </div>
-      <div class="player-container player2">
-        <div class="fallen-ships player2"></div>
-        <div class="tiles-player2"></div>
-        <div class="player-name player2">Computer</div>
-      </div>`;
+  <div class="player-container player1">
+  <div class="fallen-ships player1"></div>
+  <div class="tiles-player1"></div>
+  <div class="player-name player1">You</div>
+  </div>
+  <div class="vertical-line">
+  <div class="line"></div>
+  </div>
+  <div class="player-container player2">
+  <div class="fallen-ships player2"></div>
+  <div class="tiles-player2"></div>
+  <div class="player-name player2">Computer</div>
+  </div>`;
   container.append(containerDiv);
   playerOneTiles = document.querySelector('.tiles-player1');
   playerTwoTiles = document.querySelector('.tiles-player2');
