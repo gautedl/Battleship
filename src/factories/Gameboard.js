@@ -27,15 +27,15 @@ export default class Gameboard {
       return false;
     const offset = Math.floor(ship.length / 2); //Offset for finding start pos of ship
     let startPosition = 0;
-    if (isVertical) {
+    if (!isVertical) {
       startPosition = row - offset;
       for (let i = 0; i < ship.length; i++) {
-        this.board[startPosition + i][column] = 'ship';
+        this.board[row + i][column] = 'ship';
       }
     } else {
       startPosition = column - offset;
       for (let i = 0; i < ship.length; i++) {
-        this.board[row][startPosition + i] = 'ship';
+        this.board[row][column + i] = 'ship';
       }
     }
     return this.board;
@@ -46,13 +46,13 @@ export default class Gameboard {
     const offset = Math.floor(ship.length / 2);
     let startPosition = 0;
 
-    if (isVertical) {
+    if (!isVertical) {
       startPosition = row - offset;
       for (let i = 0; i < ship.length; i++) {
         if (
-          startPosition + i < 0 || //Makes sure the ship can't be placed outside of the board
-          startPosition + i > 9 || //Makes sure the ship won't overflow to the nex row
-          this.board[startPosition + i][column] === 'ship'
+          row + i < 0 || //Makes sure the ship can't be placed outside of the board
+          row + i > 9 || //Makes sure the ship won't overflow to the nex row
+          this.board[row + i][column] === 'ship'
         )
           return false;
       }
@@ -60,9 +60,9 @@ export default class Gameboard {
       startPosition = column - offset;
       for (let i = 0; i < ship.length; i++) {
         if (
-          startPosition + i < 0 ||
-          startPosition + i > 9 ||
-          this.board[row][startPosition + i] === 'ship'
+          column + i < 0 ||
+          column + i > 9 ||
+          this.board[row][column + i] === 'ship'
         )
           return false;
       }
