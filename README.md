@@ -1,3 +1,3 @@
 # Battleship
-npm install
+npm install <br>
 npx webpack --watch
