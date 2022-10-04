@@ -11,29 +11,18 @@ beforeEach(() => {
 test('Check if player is created', () => {
   expect(player).toEqual({
     name: 'Trym',
-    isComputer: false,
-    turn: true,
-    coordRow: [],
-    coordCol: [],
+    coords: [],
   });
 });
 
 test('Check if computer is created', () => {
   expect(computer).toEqual({
     name: 'Computer',
-    isComputer: true,
-    turn: true,
-    coordRow: [],
-    coordCol: [],
+    coords: [],
   });
-});
-
-test('Check if change turn function works', () => {
-  player.switchTurn();
-  expect(player.turn).toEqual(false);
 });
 
 test('Check if random attack works', () => {
   computer.randomPlay();
-  expect(computer.coordRow.length && computer.coordCol.length).toEqual(1);
+  expect(computer.coords.length).toEqual(1);
 });

@@ -18,36 +18,29 @@ test('Creates a 10x10 game board, check if the length of row is 10', () => {
 });
 
 test('Checks if a ship is placed on the game board, horisontally', () => {
-  gameboard.placeShip(ship, 1, 4, false);
+  gameboard.placeShip(ship, 1, 4, true);
   expect(
     gameboard.board[1][4] && gameboard.board[1][3] && gameboard.board[1][5]
   ).toEqual('ship');
 });
 
 test('Checks if a ship is placed on the game board, vertically', () => {
-  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.placeShip(ship, 1, 4, false);
   expect(
     gameboard.board[0][4] && gameboard.board[1][4] && gameboard.board[2][4]
   ).toEqual('ship');
 });
 
 test('Checks if neighbor tiles is populates, should not be', () => {
-  gameboard.placeShip(ship, 1, 4, true);
+  gameboard.placeShip(ship, 1, 4, false);
   expect(
     gameboard.board[1][1] && gameboard.board[0][3] && gameboard.board[1][5]
   ).not.toEqual('ship');
 });
 
-test('Checks if a ship is placed on the game board, vertically', () => {
-  gameboard.placeShip(ship, 1, 4, true);
-  expect(
-    gameboard.board[0][4] && gameboard.board[1][4] && gameboard.board[2][4]
-  ).toEqual('ship');
-});
-
 test('Checks that two ships can not overlap', () => {
-  gameboard.placeShip(ship, 1, 4, true);
-  expect(gameboard.checkIfShipCanBePlaced(ship, 1, 3, false)).toEqual(false);
+  gameboard.placeShip(ship, 1, 4, false);
+  expect(gameboard.checkIfShipCanBePlaced(ship, 1, 3, true)).toEqual(false);
 });
 
 test('Checks that two ships not overlap', () => {
@@ -56,12 +49,8 @@ test('Checks that two ships not overlap', () => {
 });
 
 test('Checks that two ships can not overlap, with placeShup funciton', () => {
-  gameboard.placeShip(ship, 1, 4, true);
-  expect(gameboard.placeShip(ship, 1, 3, false)).toEqual(false);
-});
-
-test('Checks that a ship can not be placed out of board', () => {
-  expect(gameboard.checkIfShipCanBePlaced(ship, 0, 0, true)).toEqual(false);
+  gameboard.placeShip(ship, 1, 4, false);
+  expect(gameboard.placeShip(ship, 1, 3, true)).toEqual(false);
 });
 
 test('Checks if ship is hit when attacking', () => {
