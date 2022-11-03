@@ -2,13 +2,14 @@
   "name": "battleship",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://gautedl.github.io/battleship",
+  "homepage": "https://gautedl.github.io/Battleship/",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "watch": "jest --watch *.js",
     "predeploy": "npm run build",
-   "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
